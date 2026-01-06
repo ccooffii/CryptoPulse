@@ -13,7 +13,7 @@ module.exports = {
   rules: {
     // project preferences
     "react/react-in-jsx-scope": "off",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "prettier/prettier": "warn",
   },
