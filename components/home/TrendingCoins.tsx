@@ -31,7 +31,8 @@ const TrendingCoins = async () => {
       cellClassName: "name-cell",
       cell: (coin) => {
         const item = coin.item;
-        const isTrendingUp = item.data.price_change_percentage_24h.usd >= 0;
+        const priceChange = item.data?.price_change_percentage_24h?.usd ?? 0;
+        const isTrendingUp = priceChange >= 0;
         return (
           <div
             className={cn(
@@ -45,7 +46,7 @@ const TrendingCoins = async () => {
               ) : (
                 <TrendingDown width={16} height={16} />
               )}
-              {Math.abs(item.data.price_change_percentage_24h.usd).toFixed(2)}%
+              {Math.abs(priceChange).toFixed(2)}%
             </p>
           </div>
         );
