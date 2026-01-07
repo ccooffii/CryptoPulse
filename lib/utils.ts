@@ -2,10 +2,24 @@ import { clsx, type ClassValue } from 'clsx';
 import { Time } from 'lightweight-charts';
 import { twMerge } from 'tailwind-merge';
 
+/**
+ * Combine multiple class-value inputs into a single className string and resolve Tailwind CSS class conflicts.
+ *
+ * @returns A single space-separated class string with conflicting Tailwind classes merged according to Tailwind rules
+ */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Format a numeric value as a localized currency or plain numeric string.
+ *
+ * @param value - The numeric value to format; if `null`, `undefined`, or `NaN` returns a zero representation.
+ * @param digits - Number of fraction digits to show; defaults to 2.
+ * @param currency - ISO 4217 currency code to use when showing a currency symbol; defaults to `'USD'`.
+ * @param showSymbol - When `true` or `undefined`, include the currency symbol; when `false`, return a plain number string.
+ * @returns A localized formatted string (currency when `showSymbol` is `true`/`undefined`, otherwise a plain number). When `value` is missing or `NaN` returns `'$0.00'` unless `showSymbol` is `false`, in which case returns `'0.00'`.
+ */
 export function formatCurrency(
   value: number | null | undefined,
   digits?: number,
@@ -30,6 +44,12 @@ export function formatCurrency(
   });
 }
 
+/**
+ * Format a numeric change value as a percentage string with one decimal place.
+ *
+ * @param change - The numeric change value (e.g., `2.5` for 2.5%). If `null`, `undefined`, or `NaN`, it is treated as zero.
+ * @returns The change formatted to one decimal place followed by `%` (for example, `2.5%`). Returns `0.0%` for `null`, `undefined`, or `NaN` inputs.
+ */
 export function formatPercentage(change: number | null | undefined): string {
   if (change === null || change === undefined || isNaN(change)) {
     return '0.0%';
@@ -38,6 +58,15 @@ export function formatPercentage(change: number | null | undefined): string {
   return `${formattedChange}%`;
 }
 
+/**
+ * Selects CSS and icon classes that reflect whether a numeric value is trending up or down.
+ *
+ * @param value - The numeric change to evaluate; positive indicates an upward trend, zero or negative indicates a downward trend
+ * @returns An object with:
+ *  - `textClass` — text color class (`green` when up, `red` when down)
+ *  - `bgClass` — background color class (light green when up, light red when down)
+ *  - `iconClass` — icon identifier (`icon-up` when up, `icon-down` when down)
+ */
 export function trendingClasses(value: number) {
   const isTrendingUp = value > 0;
 
@@ -48,6 +77,18 @@ export function trendingClasses(value: number) {
   };
 }
 
+/**
+ * Convert a date to a concise human-readable relative time string.
+ *
+ * @param date - The reference date to compare with the current time. Accepts a `Date`, a numeric timestamp, or an ISO/date string.
+ * @returns A short relative time string:
+ * - `just now` for times less than 60 seconds ago
+ * - `X min` for times less than 60 minutes ago
+ * - `X hour` or `X hours` for times less than 24 hours ago
+ * - `X day` or `X days` for times less than 7 days ago
+ * - `X week` or `X weeks` for times less than 4 weeks ago
+ * - `YYYY-MM-DD` (ISO date) for older dates
+ */
 export function timeAgo(date: string | number | Date): string {
   const now = new Date();
   const past = new Date(date);
@@ -69,6 +110,14 @@ export function timeAgo(date: string | number | Date): string {
   return past.toISOString().split('T')[0];
 }
 
+/**
+ * Converts an array of OHLC tuples into objects compatible with lightweight-charts and removes consecutive duplicate timestamps.
+ *
+ * Each input tuple is expected as [time, open, high, low, close], where `time` is a numeric timestamp (seconds).
+ *
+ * @param data - Array of OHLC tuples to convert.
+ * @returns An array of objects with keys `time` (cast to `Time`), `open`, `high`, `low`, and `close`; consecutive entries with the same `time` are deduplicated (first occurrence kept).
+ */
 export function convertOHLCData(data: OHLCData[]) {
   return data
     .map((d) => ({
