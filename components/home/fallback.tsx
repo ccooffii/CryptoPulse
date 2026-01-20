@@ -1,78 +1,116 @@
-import DataTable from "@/components/DataTable";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import DataTable from '@/components/DataTable';
+import { cn } from '@/lib/utils';
 
 export const CoinOverviewFallback = () => {
   return (
-    <aside id="coin-overview-fallback" className={cn("p-4 rounded-md bg-dark-500")}>
-      <div className="flex items-center justify-between mb-4">
-        <div className="h-6 w-48 bg-dark-400 rounded animate-pulse" />
-        <div className="h-6 w-24 bg-dark-400 rounded animate-pulse" />
-      </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-1 h-20 bg-dark-400 rounded animate-pulse" />
-        <div className="col-span-2 space-y-2">
-          <div className="h-6 w-3/4 bg-dark-400 rounded animate-pulse" />
-          <div className="h-6 w-1/2 bg-dark-400 rounded animate-pulse" />
-          <div className="h-6 w-5/6 bg-dark-400 rounded animate-pulse" />
+    <div id="coin-overview-fallback">
+      <div className="header pt-2">
+        <div className="header-image skeleton" />
+        <div className="info">
+          <div className="header-line-sm skeleton" />
+          <div className="header-line-lg skeleton" />
         </div>
       </div>
-    </aside>
+      <div className="chart">
+        <div className="chart-skeleton skeleton" />
+      </div>
+    </div>
   );
 };
-
-const skeletonRows = Array.from({ length: 5 }).map((_, i) => ({
-  id: `s-${i}`,
-}));
 
 export const TrendingCoinsFallback = () => {
   const columns = [
     {
-      header: "Coin",
+      header: 'Name',
       cell: () => (
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-dark-400 animate-pulse" />
-          <div className="space-y-1">
-            <div className="h-4 w-28 bg-dark-400 rounded animate-pulse" />
-            <div className="h-3 w-20 bg-dark-400 rounded animate-pulse" />
-          </div>
+        <div className="name-link">
+          <div className="name-image skeleton" />
+          <div className="name-line skeleton" />
         </div>
       ),
     },
     {
-      header: "Price",
-      cell: () => <div className="h-5 w-24 bg-dark-400 rounded animate-pulse" />,
+      header: '24h Change',
+      cell: () => (
+        <div className="price-change">
+          <div className="change-icon skeleton" />
+          <div className="change-line skeleton" />
+        </div>
+      ),
     },
     {
-      header: "24h",
-      cell: () => <div className="h-5 w-20 bg-dark-400 rounded animate-pulse" />,
-    },
-    {
-      header: "Market Cap",
-      cell: () => <div className="h-5 w-28 bg-dark-400 rounded animate-pulse" />,
+      header: 'Price',
+      cell: () => <div className="price-line skeleton" />,
     },
   ];
 
+  const dummyData = Array.from({ length: 6 }, (_, i) => ({ id: i }));
+
   return (
-    <section id="trending-coins-fallback" className={cn("w-full rounded-md bg-dark-500 p-4")}>
-      <h3 className="mb-3 h-6 w-40 bg-dark-400 rounded animate-pulse" />
+    <div id="trending-coins-fallback">
+      <h4>Trending Coins</h4>
       <DataTable
+        data={dummyData}
         columns={columns}
-        data={skeletonRows}
-        rowKey={(r) => r.id}
-        tableClassName="w-full"
-        headerRowClassName="bg-transparent"
-        headerCellClassName="text-muted"
-        bodyRowClassName="bg-transparent"
-        bodyCellClassName=""
+        rowKey={(item) => item.id}
+        tableClassName="trending-coins-table"
       />
-    </section>
+    </div>
   );
 };
 
-const fallbackExports = {
-  CoinOverviewFallback,
-  TrendingCoinsFallback,
-};
+export const CategoriesFallback = () => {
+  const columns = [
+    {
+      header: 'Category',
+      cellClassName: 'category-cell',
+      cell: () => <div className="category-line skeleton" />,
+    },
+    {
+      header: 'Top Gainers',
+      cellClassName: 'top-gainers-cell',
+      cell: () => (
+        <div className="flex gap-1">
+          <div className="gainer-image skeleton" />
+          <div className="gainer-image skeleton" />
+          <div className="gainer-image skeleton" />
+        </div>
+      ),
+    },
+    {
+      header: '24h Change',
+      cellClassName: 'change-header-cell',
+      cell: () => (
+        <div className="change-cell">
+          <div className="change-icon skeleton" />
+          <div className="change-line skeleton" />
+        </div>
+      ),
+    },
+    {
+      header: 'Market Cap',
+      cellClassName: 'market-cap-cell',
+      cell: () => <div className="value-skeleton-lg skeleton" />,
+    },
+    {
+      header: '24h Volume',
+      cellClassName: 'volume-cell',
+      cell: () => <div className="value-skeleton-md skeleton" />,
+    },
+  ];
 
-export default fallbackExports;
+  const dummyData = Array.from({ length: 10 }, (_, i) => ({ id: i }));
+
+  return (
+    <div id="categories-fallback">
+      <h4>Top Categories</h4>
+      <DataTable
+        data={dummyData}
+        columns={columns}
+        rowKey={(item) => item.id}
+        tableClassName="mt-3"
+      />
+    </div>
+  );
+};
