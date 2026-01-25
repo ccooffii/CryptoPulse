@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import qs from "query-string";
@@ -10,70 +11,45 @@ if (!API_KEY) throw new Error("Could not get api key");
 
 export async function fetcher<T>(
   endpoint: string,
-  params?: QueryParams,
-  revalidate = 60,
+  params?: Record<string, any>,
 ): Promise<T> {
+  const cleanEndpoint = endpoint.replace(/^\/+/, "");
+  const base = process.env.COINGECKO_BASEURL!.replace(/\/+$/, "");
+
   const url = qs.stringifyUrl(
-    {
-      url: `${BASE_URL}/${endpoint}`,
-      query: params,
-    },
+    { url: `${base}/${cleanEndpoint}`, query: params },
     { skipEmptyString: true, skipNull: true },
   );
-  console.log(url);
-  const response = await fetch(url, {
+  const res = await fetch(url, {
     headers: {
-      "x-cg-pro-api-key": API_KEY,
-      "Content-Type": "application/json",
-    } as Record<string, string>,
-    next: { revalidate },
+      "x-cg-demo-api-key": process.env.COINGECKO_API_KEY!,
+    },
   });
-  if (!response.ok) {
-    const errorBody: CoinGeckoErrorBody = await response
-      .json()
-      .catch(() => ({}));
-
-    throw new Error(
-      `API Error: ${response.status}: ${errorBody.error || response.statusText} `,
-    );
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`API Error ${res.status}: ${body || res.statusText}`);
   }
-
-  return response.json();
+  return res.json();
 }
 
-export async function getPools(
+export type SearchCoin = {
   id: string,
-  network?: string | null,
-  contractAddress?: string | null,
-): Promise<PoolData> {
-  const fallback: PoolData = {
-    id: "",
-    address: "",
-    name: "",
-    network: "",
-  };
+  name: string,
+  api_symbol: string,
+  symbol: string,
+  market_cap_rank: number,
+  thumb: string,
+  large: string,
+};
 
-  if (network && contractAddress) {
-    try {
-      const poolData = await fetcher<{ data: PoolData[] }>(
-        `/onchain/networks/${network}/tokens/${contractAddress}/pools`,
-      );
+type CoinGeckoSearchResponse = {
+  coins: SearchCoin[];
+};
 
-      return poolData.data?.[0] ?? fallback;
-    } catch (error) {
-      console.log(error);
-      return fallback;
-    }
-  }
-
-  try {
-    const poolData = await fetcher<{ data: PoolData[] }>(
-      "/onchain/search/pools",
-      { query: id },
-    );
-
-    return poolData.data?.[0] ?? fallback;
-  } catch {
-    return fallback;
-  }
+export async function searchCoins(query: string): Promise<SearchCoin[]> {
+  const q = query.trim();
+  if (!q) return [];
+  const data = await fetcher<CoinGeckoSearchResponse>(`/search?query=${q}`,{method: 'GET'});
+  console.log(data.coins);
+  return data.coins;
 }
