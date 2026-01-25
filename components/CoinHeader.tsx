@@ -11,11 +11,6 @@ const CoinHeader = ({
   livePrice,
   priceChange24h,
 }: LiveCoinHeaderProps) => {
-  // console.log(  livePriceChangePercentage24h,
-  // priceChangePercentage30d,
-  // name,
-  // livePrice,
-  // priceChange24h,);
   const isTrendingUp = livePriceChangePercentage24h > 0;
   const isThirtyDayUp = priceChangePercentage30d > 0;
   const isPriceChangeUp = priceChange24h > 0;
@@ -52,7 +47,7 @@ const CoinHeader = ({
         <Image src={image} alt={name} width={77} height={77} />
 
         <div className="price-row">
-          <h1>{livePrice}</h1>
+          <h1>{formatCurrency(livePrice)}</h1>
           <Badge className={cn('badge', isTrendingUp ? 'badge-up' : 'badge-down')}>
             {formatPercentage(livePriceChangePercentage24h)}
             {isTrendingUp ? <TrendingUp /> : <TrendingDown />}

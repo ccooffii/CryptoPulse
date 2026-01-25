@@ -242,10 +242,9 @@ interface CoinDetailsData {
 
 interface LiveDataProps {
   coinId: string;
-  poolId: string;
-  network: data;
   coin: CoinDetailsData;
   coinOHLCData?: OHLCData[];
+  children?: React.ReactNode;
 }
 
 interface LiveCoinHeaderProps {

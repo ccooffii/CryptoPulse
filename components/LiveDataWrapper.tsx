@@ -1,3 +1,4 @@
+'use client';
 import { Separator } from '@/components/ui/separator';
 import CandlestickChart from '@/components/CandlestickChart';
 // import { useCoinGeckoWebSocket } from '@/hooks/useCoinGeckoWebSocket';
@@ -7,43 +8,7 @@ import { formatCurrency } from '@/lib/utils';
 import CoinHeader from '@/components/CoinHeader';
 import Image from "next/image";
 
-const CoinDataWrapper = async ({ coinId, poolId, coin, coinOHLCData }: LiveDataProps) => {
-    console.log(coin);
-
-    // const trade = await fetcher<TradeData>(`/onchain/networks/bch/pools/${poolId}/trades`);
-    // const { data } = trade;
-    
-    // const tradeColumns: DataTableColumn<Trade>[] = [
-    //     {
-    //     header: 'Price',
-    //     cellClassName: 'price-cell',
-    //     cell: (trade) => (trade.attributes.price_from_in_usd ? formatCurrency(coin.market_data.current_price.usd) : '-'),
-    //     },
-    //     {
-    //     header: 'Amount',
-    //     cellClassName: 'amount-cell',
-    //     cell: (trade) => Number(trade.attributes.from_token_amount)?.toFixed(4) ?? '-',
-    //     },
-    //     {
-    //     header: 'Value',
-    //     cellClassName: 'value-cell',
-    //     cell: (trade) => (trade.attributes.to_token_amount ? formatCurrency(trade.value) : '-'),
-    //     },
-    //     {
-    //     header: 'Buy/Sell',
-    //     cellClassName: 'type-cell',
-    //     cell: (trade) => (
-    //         <span className={trade.attributes.kind === 'buy' ? 'text-green-500' : 'text-red-500'}>
-    //         {trade.attributes.kind === 'buy' ? 'Buy' : 'Sell'}
-    //         </span>
-    //     ),
-    //     },
-    //     // {
-    //     // header: 'Time',
-    //     // cellClassName: 'time-cell',
-    //     // cell: (trade) => (trade.timestamp ? timeAgo(trade.timestamp) : '-'),
-    //     // },
-    // ];
+const CoinDataWrapper = ({ coinId, coin, coinOHLCData }: LiveDataProps) => {
 
   return (
     <section id="live-data-wrapper">

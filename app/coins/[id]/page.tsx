@@ -1,5 +1,5 @@
 import React from 'react';
-import { fetcher, getPools } from '@/lib/coingecko.actions';
+import { fetcher} from '@/lib/coingecko.actions';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
@@ -51,7 +51,7 @@ const Page = async ({ params }: NextPageProps) => {
   return (
     <main id="coin-details-page">
       <section className="primary">
-        <CoinDataWrapper coinId={id} poolId='' coin={coinData} coinOHLCData={coinOHLCData}>
+        <CoinDataWrapper coinId={id} coin={coinData} coinOHLCData={coinOHLCData}>
           <h4>Exchange Listings</h4>
         </CoinDataWrapper>
       </section>

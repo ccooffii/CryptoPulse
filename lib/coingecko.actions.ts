@@ -13,7 +13,6 @@ export async function fetcher<T>(
   endpoint: string,
   params?: Record<string, any>,
 ): Promise<T> {
-  debugger;
   const cleanEndpoint = endpoint.replace(/^\/+/, "");
   const base = process.env.COINGECKO_BASEURL!.replace(/\/+$/, "");
 
