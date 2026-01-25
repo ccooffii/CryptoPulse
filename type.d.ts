@@ -4,6 +4,13 @@ interface NextPageProps {
   params: Promise<{ [key: string]: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
+interface Trade {
+  id: number;
+  attributes: []
+}
+interface TradeData {
+  data: Trade[]
+}
 
 interface CandlestickChartProps {
   data?: OHLCData[];
@@ -197,6 +204,7 @@ interface CoinDetailsData {
     small: string;
   };
   market_data: {
+    price_change_percentage_24h: number;
     current_price: {
       usd: number;
       [key: string]: number;
@@ -204,9 +212,12 @@ interface CoinDetailsData {
     price_change_24h_in_currency: {
       usd: number;
     };
+    price_change_24h: number;
+    price_change_percentage_30d: number;
     price_change_percentage_24h_in_currency: {
       usd: number;
     };
+    
     price_change_percentage_30d_in_currency: {
       usd: number;
     };
@@ -232,9 +243,9 @@ interface CoinDetailsData {
 interface LiveDataProps {
   coinId: string;
   poolId: string;
+  network: data;
   coin: CoinDetailsData;
   coinOHLCData?: OHLCData[];
-  children?: React.ReactNode;
 }
 
 interface LiveCoinHeaderProps {
@@ -322,4 +333,5 @@ interface PoolData {
   address: string;
   name: string;
   network: string;
+  attributes: unknown;
 }
