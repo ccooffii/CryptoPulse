@@ -9,11 +9,10 @@ import DataTable from "../DataTable";
 const TrendingCoins = async () => {
     let trendingCoins;
     try {
-        trendingCoins = await fetcher<{ coins: TrendingCoin[] }>(
-        "search/trending",
-        undefined,
-        300,
-    );
+                trendingCoins = await fetcher<{ coins: TrendingCoin[] }>(
+                    "search/trending",
+                    undefined
+                );
     } catch (error) {
         console.error("Error fetching trending coins:", error);
     }

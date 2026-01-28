@@ -3,34 +3,45 @@
 
 import qs from "query-string";
 
-const BASE_URL = process.env.COINGECKO_BASEURL;
-const API_KEY = process.env.COINGECKO_API_KEY;
+function getEnv() {
+  const base = process.env.COINGECKO_BASEURL?.replace(/\/+$/, "");
+  const key = process.env.COINGECKO_API_KEY;
 
-if (!BASE_URL) throw new Error("Could not get base url");
-if (!API_KEY) throw new Error("Could not get api key");
+  if (!base) throw new Error("Missing env: COINGECKO_BASEURL");
+  if (!key) throw new Error("Missing env: COINGECKO_API_KEY");
+
+  return { base, key };
+}
 
 export async function fetcher<T>(
   endpoint: string,
   params?: Record<string, any>,
 ): Promise<T> {
-  const cleanEndpoint = endpoint.replace(/^\/+/, "");
-  const base = process.env.COINGECKO_BASEURL!.replace(/\/+$/, "");
+  const { base, key } = getEnv();
 
+  const cleanEndpoint = endpoint.replace(/^\/+/, "");
   const url = qs.stringifyUrl(
     { url: `${base}/${cleanEndpoint}`, query: params },
     { skipEmptyString: true, skipNull: true },
   );
+
   const res = await fetch(url, {
     headers: {
-      "x-cg-demo-api-key": process.env.COINGECKO_API_KEY!,
+      // ✅ Demo key 用这个 header
+      "x-cg-demo-api-key": key,
     },
+    // 按需：实时数据用 no-store；榜单可用 revalidate
+    cache: "no-store",
   });
+
   if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`API Error ${res.status}: ${body || res.statusText}`);
+    const text = await res.text().catch(() => "");
+    throw new Error(`CoinGecko error ${res.status}: ${text}`);
   }
-  return res.json();
+
+  return res.json() as Promise<T>;
 }
+
 
 export type SearchCoin = {
   id: string,
@@ -50,6 +61,5 @@ export async function searchCoins(query: string): Promise<SearchCoin[]> {
   const q = query.trim();
   if (!q) return [];
   const data = await fetcher<CoinGeckoSearchResponse>(`/search?query=${q}`,{method: 'GET'});
-  console.log(data.coins);
   return data.coins;
 }
