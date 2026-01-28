@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CryptoPulse",
-  description: "CryptoPulse - Real-time Cryptocurrency Dashboard",
+  title: "Crypto Scope",
+  description: "Crypto Scope",
 };
 
 export default function RootLayout({

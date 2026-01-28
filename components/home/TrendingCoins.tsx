@@ -23,8 +23,8 @@ const TrendingCoins = async () => {
             cell: (coin) => {
                 const item = coin.item;
                 return (
-                <Link href={`/coins/${item.id}`} className="flex flex-col items-center gap-2">
-                    <Image src={item.large} alt={item.name} width={36} height={36} />
+                <Link href={`/coins/${item.id}`} className="flex flex-col gap-2">
+                    <Image src={item.large} alt={item.name} width={36} height={36} className="flex flex-col items-center" />
                     <p>{item.name}</p>
                 </Link>
                 );
@@ -63,8 +63,8 @@ const TrendingCoins = async () => {
         },
     ];
     return (
-        <div id="trending-coins">
-        <h4>Trending Coins</h4>
+        <div id="trending-coins" className="rounded-3xl bg-zinc-900 border border-zinc-800 p-6">
+        <h4 className="text-xl font-bold text-zinc-100 mb-4">Trending Coins</h4>
         <DataTable
             data={trendingCoins?.coins?.slice(0, 6) ?? []}
             columns={columns}

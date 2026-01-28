@@ -28,7 +28,7 @@ const CoinOverview = async () => {
     }
 
     return (  
-      <div id="coin-overview" className="rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-800 shadow-lg p-6 flex flex-col gap-6">
+      <div id="coin-overview" className="rounded-3xl bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700/50 shadow-xl p-8 flex flex-col gap-8">
         <div className="flex items-center gap-4 border-b border-zinc-700 pb-4 mb-4">
           <Image
             src={coin.image.large}

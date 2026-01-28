@@ -60,8 +60,8 @@ const Categories = async () => {
     ];
 
     return (
-        <div id="categories" className="custom-scrollbar">
-            <h4>Top Categories</h4>
+        <div id="categories" className="custom-scrollbar rounded-3xl bg-zinc-900 border border-zinc-800 p-6">
+            <h4 className="text-xl font-bold text-zinc-100 mb-4">Top Categories</h4>
             <DataTable 
                 columns={columns} 
                 data={categories?.slice(0, 10) || []}  

@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 export const CoinOverviewFallback = () => {
   return (
-    <div id="coin-overview-fallback">
+    <div id="coin-overview-fallback" className="rounded-3xl bg-zinc-900 border border-zinc-800 p-8 flex flex-col gap-8 h-full">
       <div className="header pt-2">
         <div className="header-image skeleton" />
         <div className="info">
@@ -48,8 +48,8 @@ export const TrendingCoinsFallback = () => {
   const dummyData = Array.from({ length: 6 }, (_, i) => ({ id: i }));
 
   return (
-    <div id="trending-coins-fallback">
-      <h4>Trending Coins</h4>
+    <div id="trending-coins-fallback" className="rounded-3xl bg-zinc-900 border border-zinc-800 p-6">
+      <h4 className="text-xl font-bold text-zinc-100 mb-4">Trending Coins</h4>
       <DataTable
         data={dummyData}
         columns={columns}
@@ -103,8 +103,8 @@ export const CategoriesFallback = () => {
   const dummyData = Array.from({ length: 10 }, (_, i) => ({ id: i }));
 
   return (
-    <div id="categories-fallback">
-      <h4>Top Categories</h4>
+    <div id="categories-fallback" className="rounded-3xl bg-zinc-900 border border-zinc-800 p-6">
+      <h4 className="text-xl font-bold text-zinc-100 mb-4">Top Categories</h4>
       <DataTable
         data={dummyData}
         columns={columns}

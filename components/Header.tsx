@@ -17,7 +17,7 @@ const Header = () => {
         <Link href="/">
           <Image
             src="/assets/logo.svg"
-            alt="CryptoPulse Logo"
+            alt="Crypto Scope Logo"
             width={132}
             height={40}
           />
