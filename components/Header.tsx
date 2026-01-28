@@ -18,8 +18,8 @@ const Header = () => {
           <Image
             src="/assets/logo.svg"
             alt="Crypto Scope Logo"
-            width={132}
-            height={40}
+            width={280}
+            height={200}
           />
         </Link>
 
@@ -33,7 +33,7 @@ const Header = () => {
           >
             Home
           </Link>
-            <SearchModal initialTrendingCoins={[]} />
+          <SearchModal initialTrendingCoins={[]} />
           {/* <Button
             variant="ghost"
             onClick={() => setOpen(true)}
